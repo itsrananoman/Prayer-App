@@ -11,9 +11,9 @@
 
 ## 📸 Screenshots
 
-| 🕌 Live Dashboard | ⚙️ Settings & Customization | 🔒 Fullscreen Focus Lock |
+| 🕌 Live Dashboard | ⚙️ Settings & Customization | 
 | :---: | :---: | :---: |
-| ![Dashboard Screenshot](docs/screenshots/dashboard.png) | ![Settings Screenshot](docs/screenshots/settings.png) | ![Lock Overlay Screenshot](docs/screenshots/lock-overlay.png) |
+| ![Dashboard Screenshot](docs/screenshots/dashboard.png) | ![Settings Screenshot](docs/screenshots/settings.png) |
 
 ---
 
