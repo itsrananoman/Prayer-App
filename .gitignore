@@ -1,0 +1,53 @@
+## Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## Visual Studio / IDE files
+.vs/
+.idea/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+*.dbmdl
+*.jsproj.user
+
+## Compiled binaries & artifacts
+*.exe
+*.dll
+*.pdb
+*.msi
+*.msix
+*.appx
+*.appxbundle
+*.zip
+*.tar.gz
+*.7z
+
+## SQLite databases & temporary logs
+*.db
+*.sqlite
+*.sqlite3
+*.log
+*.tmp
+*.bak
+
+## Specific project folders
+Prayer.Tests/bin/
+Prayer.Tests/obj/
+Installer/Output/
+bin/
+obj/

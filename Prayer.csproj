@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>Resources\Icons\Prayer.ico</ApplicationIcon>
+    <RootNamespace>Prayer</RootNamespace>
+    <AssemblyName>Prayer</AssemblyName>
+    <LangVersion>latest</LangVersion>
+
+    <!-- Publisher, Author & Branding Metadata -->
+    <Company>DevCrafters</Company>
+    <Authors>Rana Noman</Authors>
+    <Product>Prayer</Product>
+    <Description>Windows Prayer Time Focus Lock Application</Description>
+    <Copyright>Developed by Rana Noman</Copyright>
+    <Version>1.1.0</Version>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Prayer.Tests\**" />
+    <EmbeddedResource Remove="Prayer.Tests\**" />
+    <None Remove="Prayer.Tests\**" />
+    <Page Remove="Prayer.Tests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\Audio\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Resource Include="Resources\Icons\Prayer.ico" />
+    <Resource Include="Resources\Icons\app_icon.ico" />
+    <None Update="Resources\Icons\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Icons\Prayer.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>Prayer.ico</TargetPath>
+    </None>
+    <None Update="Resources\Icons\app_icon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>app_icon.ico</TargetPath>
+    </None>
+  </ItemGroup>
+
+</Project>

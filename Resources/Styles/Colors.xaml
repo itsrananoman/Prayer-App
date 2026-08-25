@@ -1,0 +1,49 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Background Gradients -->
+    <LinearGradientBrush x:Key="AppBackgroundBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#061612" Offset="0.0"/>
+        <GradientStop Color="#0B231D" Offset="0.5"/>
+        <GradientStop Color="#081A15" Offset="1.0"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="HeroCardGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#123B2F" Offset="0.0"/>
+        <GradientStop Color="#0A251E" Offset="1.0"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="GoldGradientBrush" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Color="#F3E5AB" Offset="0.0"/>
+        <GradientStop Color="#D4AF37" Offset="0.5"/>
+        <GradientStop Color="#AA820A" Offset="1.0"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="EmeraldButtonBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#1E6550" Offset="0.0"/>
+        <GradientStop Color="#124436" Offset="1.0"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="GoldButtonBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#E6C868" Offset="0.0"/>
+        <GradientStop Color="#C5A028" Offset="1.0"/>
+    </LinearGradientBrush>
+
+    <!-- Solid Brushes -->
+    <SolidColorBrush x:Key="SurfaceCardBrush" Color="#0E2922"/>
+    <SolidColorBrush x:Key="SurfaceCardHoverBrush" Color="#153B31"/>
+    <SolidColorBrush x:Key="SurfaceCardSelectedBrush" Color="#1B473C"/>
+    <SolidColorBrush x:Key="BorderSubtleBrush" Color="#1D4A3D"/>
+    <SolidColorBrush x:Key="BorderGoldBrush" Color="#8C7323"/>
+
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#A5C4BC"/>
+    <SolidColorBrush x:Key="TextMutedBrush" Color="#6C8F85"/>
+    <SolidColorBrush x:Key="TextGoldBrush" Color="#E5C158"/>
+    <SolidColorBrush x:Key="TextMintBrush" Color="#64DFDF"/>
+
+    <SolidColorBrush x:Key="AccentGoldSolidBrush" Color="#D4AF37"/>
+    <SolidColorBrush x:Key="AccentEmeraldSolidBrush" Color="#10B981"/>
+    <SolidColorBrush x:Key="OverlayDarkBackdropBrush" Color="#FA05120E"/>
+
+</ResourceDictionary>

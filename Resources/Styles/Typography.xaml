@@ -1,0 +1,9 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <FontFamily x:Key="MainFontFamily">Segoe UI, -apple-system, BlinkMacSystemFont, Roboto, sans-serif</FontFamily>
+    <FontFamily x:Key="ArabicFontFamily">Traditional Arabic, Scheherazade New, Amiri, Tahoma, Segoe UI</FontFamily>
+    <FontFamily x:Key="UrduFontFamily">Jameel Noori Nastaleeq, Urdu Typesetting, Tahoma, Segoe UI</FontFamily>
+    <FontFamily x:Key="ClockFontFamily">Segoe UI Variable Display, Consolas, Segoe UI, sans-serif</FontFamily>
+
+</ResourceDictionary>

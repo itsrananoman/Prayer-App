@@ -1,0 +1,253 @@
+<Window x:Class="Prayer.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+        mc:Ignorable="d"
+        Title="Settings &amp; Preferences — Prayer App"
+        Height="720" Width="840"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        ResizeMode="CanResize"
+        Background="{StaticResource AppBackgroundBrush}"
+        Icon="pack://application:,,,/Resources/Icons/Prayer.ico"
+        FontFamily="{StaticResource MainFontFamily}">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="40"
+                      ResizeBorderThickness="6"
+                      CornerRadius="0"
+                      GlassFrameThickness="0"
+                      UseAeroCaptionButtons="False"/>
+    </WindowChrome.WindowChrome>
+
+    <!-- MAIN CONTAINER WITH ROUNDED CORNERS & GOLD BORDER GLOW -->
+    <Border Background="{StaticResource AppBackgroundBrush}"
+            BorderBrush="{StaticResource BorderGoldBrush}"
+            BorderThickness="1"
+            CornerRadius="14">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="25" ShadowDepth="4" Direction="270" Opacity="0.5" Color="#000000"/>
+        </Border.Effect>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/> <!-- Custom Title Bar -->
+                <RowDefinition Height="*"/>  <!-- Content Area -->
+                <RowDefinition Height="Auto"/> <!-- Footer Actions -->
+            </Grid.RowDefinitions>
+
+            <!-- CUSTOM TITLE BAR -->
+            <Grid Grid.Row="0" Background="#061A14" Margin="1,1,1,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="14,0,0,0">
+                    <Image Source="pack://application:,,,/Resources/Icons/Prayer.ico"
+                           Width="18" Height="18"
+                           RenderOptions.BitmapScalingMode="HighQuality"
+                           VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <TextBlock Text="Settings &amp; Preferences" FontSize="13" FontWeight="Bold" Foreground="{StaticResource TextGoldBrush}" VerticalAlignment="Center"/>
+                    <TextBlock Text=" — Prayer Application" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <Button Grid.Column="1" Style="{StaticResource TitleBarCloseButton}" Click="OnCloseClick"/>
+            </Grid>
+
+            <!-- SETTINGS SECTIONS SCROLL -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="20,14,20,14">
+                <StackPanel>
+
+                    <!-- SECTION 1: LOCATION & METHOD -->
+                    <Border Style="{StaticResource ModernCard}" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="📍 Location &amp; Calculation Method" FontSize="14" FontWeight="Bold" Foreground="{StaticResource TextGoldBrush}" Margin="0,0,0,10"/>
+
+                            <!-- City Presets Chips -->
+                            <TextBlock Text="Quick Presets:" FontSize="12" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,6"/>
+                            <ItemsControl ItemsSource="{Binding CityPresets}" Margin="0,0,0,10">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{Binding DisplayName}"
+                                                Style="{StaticResource OutlineButton}"
+                                                Command="{Binding DataContext.SelectPresetCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                CommandParameter="{Binding}"
+                                                Margin="0,0,6,6" Padding="8,4" FontSize="11"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <!-- Custom City & Country -->
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="12"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <TextBlock Text="City Name" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                                    <TextBox Text="{Binding City, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="Country Code (e.g. PK, SA)" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                                    <TextBox Text="{Binding Country, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource ModernTextBox}"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Method Selector -->
+                            <TextBlock Text="Calculation Method" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                            <ComboBox ItemsSource="{Binding CalculationMethods}"
+                                      SelectedItem="{Binding SelectedMethod}"
+                                      DisplayMemberPath="Name"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- SECTION 2: LOCK DURATION & AUDIO -->
+                    <Border Style="{StaticResource ModernCard}" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="⏱️ Focus Lock &amp; Azaan Audio" FontSize="14" FontWeight="Bold" Foreground="{StaticResource TextGoldBrush}" Margin="0,0,0,10"/>
+
+                            <!-- Lock Duration Slider -->
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <TextBlock Text="Lock Duration" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}"/>
+                                    <TextBlock Text="Screen remains locked for this duration before the unlock button appears." FontSize="11" Foreground="{StaticResource TextMutedBrush}"/>
+                                </StackPanel>
+                                <Border Grid.Column="1" Background="#164D3F" BorderBrush="{StaticResource BorderGoldBrush}" BorderThickness="1" CornerRadius="6" Padding="10,4">
+                                    <TextBlock Text="{Binding LockDurationMinutes, StringFormat='{}{0} Minutes'}" FontSize="13" FontWeight="Bold" Foreground="{StaticResource TextGoldBrush}"/>
+                                </Border>
+                            </Grid>
+                            <Slider Value="{Binding LockDurationMinutes}" Minimum="5" Maximum="30" SmallChange="1" LargeChange="5"
+                                    IsSnapToTickEnabled="True" TickFrequency="1" Margin="0,0,0,14"/>
+
+                            <!-- Azaan Audio Picker -->
+                            <TextBlock Text="Azaan Audio File (.mp3 or .wav)" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Text="{Binding AzaanFileNameDisplay, Mode=OneWay}" IsReadOnly="True" Style="{StaticResource ModernTextBox}"/>
+                                <Button Grid.Column="2" Content="Browse..." Style="{StaticResource SecondaryEmeraldButton}" Command="{Binding BrowseAzaanFileCommand}"/>
+                                <Button Grid.Column="4" Content="▶ Test" Style="{StaticResource PrimaryGoldButton}" Command="{Binding TestAudioCommand}"/>
+                                <Button Grid.Column="6" Content="Clear" Style="{StaticResource OutlineButton}" Command="{Binding ClearAzaanFileCommand}"/>
+                            </Grid>
+
+                            <CheckBox IsChecked="{Binding PlayDefaultChime}" Margin="0,4,0,10"
+                                      Content="Play default gentle chime if custom Azaan is not configured or unavailable"/>
+
+                            <!-- Pre-Lock Reminder Selector -->
+                            <TextBlock Text="Pre-Lock Reminder Notification" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,4"/>
+                            <ComboBox ItemsSource="{Binding ReminderOptions}"
+                                      SelectedItem="{Binding SelectedReminderLead}"
+                                      DisplayMemberPath="DisplayName"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- SECTION 3: MANUAL OVERRIDES -->
+                    <Border Style="{StaticResource ModernCard}" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="✍️ Manual Prayer Time Overrides (Optional)" FontSize="14" FontWeight="Bold" Foreground="{StaticResource TextGoldBrush}" Margin="0,0,0,2"/>
+                            <TextBlock Text="Set exact jamat times with explicit Hour, Minute, and AM/PM selection." FontSize="11" Foreground="{StaticResource TextMutedBrush}" Margin="0,0,0,10"/>
+
+                            <ItemsControl ItemsSource="{Binding OverrideItems}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="90"/>
+                                                <ColumnDefinition Width="65"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding PrayerName}" FontSize="13" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding PrayerUrduName}" FontFamily="{StaticResource UrduFontFamily}" FontSize="14" Foreground="{StaticResource TextGoldBrush}" VerticalAlignment="Center"/>
+                                            
+                                            <!-- Time Picker Row (Hour : Minute AM/PM) -->
+                                            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,16,0">
+                                                <ComboBox ItemsSource="{Binding Hours}"
+                                                          SelectedItem="{Binding SelectedHour}"
+                                                          Width="58" Margin="0,0,4,0"/>
+                                                <TextBlock Text=":" FontSize="14" FontWeight="Bold" Foreground="{StaticResource TextGoldBrush}" VerticalAlignment="Center" Margin="2,0,4,0"/>
+                                                <ComboBox ItemsSource="{Binding Minutes}"
+                                                          SelectedItem="{Binding SelectedMinute}"
+                                                          Width="62" Margin="0,0,6,0"/>
+                                                <ComboBox ItemsSource="{Binding AmPmOptions}"
+                                                          SelectedItem="{Binding SelectedAmPm}"
+                                                          Width="64"/>
+                                            </StackPanel>
+
+                                            <CheckBox Grid.Column="3" IsChecked="{Binding IsEnabled}" Content="Enable Override" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- SECTION 4: SYSTEM & PREFERENCES -->
+                    <Border Style="{StaticResource ModernCard}" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="💻 System &amp; Startup" FontSize="14" FontWeight="Bold" Foreground="{StaticResource TextGoldBrush}" Margin="0,0,0,10"/>
+                            <CheckBox IsChecked="{Binding AutostartEnabled}" Content="Start automatically with Windows (Runs minimized in system tray)" Margin="0,0,0,8"/>
+                            <CheckBox IsChecked="{Binding MinimizeToTrayOnClose}" Content="Minimize to system tray when closed instead of exiting"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- SECTION 5: ABOUT & DEVELOPER BRANDING -->
+                    <Border Style="{StaticResource ModernCard}">
+                        <StackPanel>
+                            <TextBlock Text="ℹ️ About Prayer Application" FontSize="14" FontWeight="Bold" Foreground="{StaticResource TextGoldBrush}" Margin="0,0,0,10"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="pack://application:,,,/Resources/Icons/Prayer.ico"
+                                       Width="36" Height="36"
+                                       RenderOptions.BitmapScalingMode="HighQuality"
+                                       VerticalAlignment="Center" Margin="0,0,14,0"/>
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="Prayer — Focus &amp; Salah Consistency Lock" FontSize="13" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}"/>
+                                    <TextBlock Text="Version 1.1.0 • Developed by Rana Noman" FontSize="12" Foreground="{StaticResource TextGoldBrush}" Margin="0,2,0,1"/>
+                                    <TextBlock Text="Publisher: DevCrafters" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- FOOTER / SAVE BUTTON -->
+            <Border Grid.Row="2" Background="#061A14" BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="0,1,0,0" Padding="20,12">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding StatusMessage}" FontSize="13" Foreground="{StaticResource TextMintBrush}" VerticalAlignment="Center"/>
+                    <Button Grid.Column="1" Content="💾 Save &amp; Apply Changes" Style="{StaticResource PrimaryGoldButton}"
+                            Command="{Binding SaveSettingsCommand}" Padding="24,8" FontSize="13"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>
