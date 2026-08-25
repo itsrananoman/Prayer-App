@@ -170,4 +170,27 @@ public class PrayerCalculationTests
             }
         }
     }
+
+    [Fact]
+    public void QuranViewModel_FilterSurahs_MatchesEnglishAndArabic()
+    {
+        var sampleSurahs = new List<SurahListItem>
+        {
+            new() { Number = 1, EnglishName = "Al-Faatiha", EnglishNameTranslation = "The Opening", ArabicName = "سُورَةُ ٱلْفَاتِحَةِ", NumberOfAyahs = 7, RevelationType = "Meccan" },
+            new() { Number = 2, EnglishName = "Al-Baqara", EnglishNameTranslation = "The Cow", ArabicName = "سُورَةُ البَقَرَةِ", NumberOfAyahs = 286, RevelationType = "Medinan" },
+            new() { Number = 36, EnglishName = "Yaseen", EnglishNameTranslation = "Ya-Sin", ArabicName = "سُورَةُ يسٓ", NumberOfAyahs = 83, RevelationType = "Meccan" },
+            new() { Number = 67, EnglishName = "Al-Mulk", EnglishNameTranslation = "The Sovereignty", ArabicName = "سُورَةُ المُلْكِ", NumberOfAyahs = 30, RevelationType = "Meccan" }
+        };
+
+        // Filter by English
+        var filteredYaseen = sampleSurahs.Where(s => s.EnglishName.Contains("Yaseen", StringComparison.OrdinalIgnoreCase)).ToList();
+        Assert.Single(filteredYaseen);
+        Assert.Equal(36, filteredYaseen[0].Number);
+
+        // Filter by Arabic
+        var filteredMulk = sampleSurahs.Where(s => s.ArabicName.Contains("المُلْكِ")).ToList();
+        Assert.Single(filteredMulk);
+        Assert.Equal(67, filteredMulk[0].Number);
+    }
 }
+

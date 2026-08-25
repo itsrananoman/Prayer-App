@@ -10,6 +10,9 @@ public class PrayerDbContext : DbContext
     public DbSet<ManualOverride> ManualOverrides => Set<ManualOverride>();
     public DbSet<UserSetting> UserSettings => Set<UserSetting>();
     public DbSet<DailyVerse> DailyVerses => Set<DailyVerse>();
+    public DbSet<SurahListItem> Surahs => Set<SurahListItem>();
+    public DbSet<CachedAyah> CachedAyahs => Set<CachedAyah>();
+    public DbSet<SurahReadingProgress> ReadingProgress => Set<SurahReadingProgress>();
 
     private readonly string _dbPath;
 
@@ -49,5 +52,8 @@ public class PrayerDbContext : DbContext
 
         modelBuilder.Entity<DailyVerse>()
             .HasIndex(v => v.DayOfYear);
+
+        modelBuilder.Entity<CachedAyah>()
+            .HasIndex(a => new { a.SurahNumber, a.AyahNumber });
     }
 }

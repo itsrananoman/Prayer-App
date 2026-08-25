@@ -1,6 +1,6 @@
 ; Inno Setup Script for Prayer Application (Self-Contained Single-File Package)
 #define MyAppName "Prayer"
-#define MyAppVersion "1.1.0"
+#define MyAppVersion "2.0.0"
 #define MyAppPublisher "DevCrafters"
 #define MyAppCopyright "Developed by Rana Noman"
 #define MyAppExeName "Prayer.exe"
@@ -16,7 +16,7 @@ DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
 OutputDir=..\bin\Installer
-OutputBaseFilename=PrayerSetup_v1.1.0
+OutputBaseFilename=PrayerSetup_v2.0.0
 SetupIconFile={#MyAppIcon}
 UninstallDisplayIcon={app}\{#MyAppExeName},0
 WizardImageFile=WizardImage.bmp

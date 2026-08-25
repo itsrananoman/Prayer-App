@@ -8,25 +8,22 @@ namespace Prayer.Views;
 
 public partial class MainWindow : Window
 {
-    private readonly MainViewModel _viewModel;
+    private readonly ShellViewModel _viewModel;
     private bool _isExplicitClose = false;
     private Action? _onTaskbarCreated;
 
-    public MainWindow(MainViewModel viewModel)
+    public MainWindow(ShellViewModel viewModel)
     {
         InitializeComponent();
         _viewModel = viewModel;
         DataContext = _viewModel;
 
-#if !DEBUG
-        // In Release/Production builds, physically remove the Test Lock button from the visual tree
-        if (TestLockButton != null && TestLockButton.Parent is System.Windows.Controls.Panel actionPanel)
-        {
-            actionPanel.Children.Remove(TestLockButton);
-        }
-#endif
-
         Loaded += async (s, e) => await _viewModel.InitializeAsync();
+    }
+
+    public void NavigateTo(NavPage page)
+    {
+        _viewModel.NavigateTo(page);
     }
 
     public void SetTaskbarCreatedCallback(Action onTaskbarCreated)

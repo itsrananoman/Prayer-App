@@ -16,7 +16,6 @@ public partial class App : System.Windows.Application
     private IServiceProvider? _serviceProvider;
     private TrayIconManager? _trayIconManager;
     private MainWindow? _mainWindow;
-    private SettingsWindow? _settingsWindow;
 
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -67,11 +66,11 @@ public partial class App : System.Windows.Application
                 DatabaseInitializer.Initialize(dbContext);
             }
 
-            // 5. Create Main Window & Tray Icon
+            // 5. Create Main Shell Window & Tray Icon
             _mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
             var mainVm = _serviceProvider.GetRequiredService<MainViewModel>();
 
-            _trayIconManager = new TrayIconManager(_mainWindow, mainVm, OpenSettingsWindow);
+            _trayIconManager = new TrayIconManager(_mainWindow, mainVm, OpenSettingsPage);
 
             // Connect pre-lock reminder notifications & taskbar recreation
             mainVm.SetNotificationHandler((title, message) => _trayIconManager.ShowNotification(title, message));
@@ -98,26 +97,32 @@ public partial class App : System.Windows.Application
         // DbContext
         services.AddDbContext<PrayerDbContext>();
 
-        // Services
+        // Core Services
         services.AddSingleton<IPrayerApiService, PrayerApiService>();
         services.AddSingleton<IPrayerCalculationService, PrayerCalculationService>();
         services.AddSingleton<ISettingsService, SettingsService>();
         services.AddSingleton<IVerseService, VerseService>();
         services.AddSingleton<IAudioService, AudioService>();
+        services.AddSingleton<IQuranService, QuranService>();
         services.AddSingleton<KeyboardHookService>();
         services.AddSingleton<LockManager>();
 
-        // ViewModels
+        // Page ViewModels
         services.AddSingleton<MainViewModel>(sp => new MainViewModel(
             sp.GetRequiredService<IPrayerApiService>(),
             sp.GetRequiredService<IPrayerCalculationService>(),
             sp.GetRequiredService<ISettingsService>(),
             sp.GetRequiredService<IVerseService>(),
             sp.GetRequiredService<LockManager>(),
-            OpenSettingsWindow
+            OpenSettingsPage
         ));
 
-        services.AddTransient<SettingsViewModel>(sp => new SettingsViewModel(
+        services.AddSingleton<PrayerTimesViewModel>();
+        services.AddSingleton<QuranViewModel>();
+        services.AddSingleton<HadithViewModel>();
+        services.AddSingleton<AboutViewModel>();
+
+        services.AddSingleton<SettingsViewModel>(sp => new SettingsViewModel(
             sp.GetRequiredService<ISettingsService>(),
             sp.GetRequiredService<IAudioService>(),
             onSettingsSaved: () =>
@@ -127,27 +132,21 @@ public partial class App : System.Windows.Application
             }
         ));
 
+        // Shell ViewModel
+        services.AddSingleton<ShellViewModel>();
+
         // Windows
         services.AddSingleton<MainWindow>();
     }
 
-    public void OpenSettingsWindow()
+    public void OpenSettingsPage()
     {
-        if (_serviceProvider == null) return;
-
-        if (_settingsWindow == null || !_settingsWindow.IsLoaded)
+        if (_mainWindow != null)
         {
-            var settingsVm = _serviceProvider.GetRequiredService<SettingsViewModel>();
-            _settingsWindow = new SettingsWindow(settingsVm)
-            {
-                Owner = _mainWindow
-            };
-            _settingsWindow.Closed += (s, e) => _settingsWindow = null;
-            _settingsWindow.ShowDialog();
-        }
-        else
-        {
-            _settingsWindow.Activate();
+            _mainWindow.NavigateTo(NavPage.Settings);
+            _mainWindow.Show();
+            _mainWindow.WindowState = WindowState.Normal;
+            _mainWindow.Activate();
         }
     }
 

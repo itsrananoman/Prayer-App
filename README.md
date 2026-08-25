@@ -1,48 +1,52 @@
-# 🕌 Prayer (صلوٰۃ) — Windows Salah Focus Lock
+# 🕌 Prayer (صلوٰۃ) — Windows Salah Focus Lock & Islamic Companion
 
 > *"Your screen waits. Salah doesn't."*
 
 [![Platform: Windows](https://img.shields.io/badge/Platform-Windows%2010%20%7C%2011-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/itsrananoman/Prayer-App)
 [![Framework: .NET 8 WPF](https://img.shields.io/badge/.NET-8.0%20WPF-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
-[![Version: v1.1.0](https://img.shields.io/badge/Version-v1.1.0-D4AF37?style=for-the-badge)](https://github.com/itsrananoman/Prayer-App/releases)
+[![Version: v2.0.0](https://img.shields.io/badge/Version-v2.0.0-D4AF37?style=for-the-badge)](https://github.com/itsrananoman/Prayer-App/releases)
 [![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red?style=for-the-badge)](https://github.com/itsrananoman/Prayer-App)
 
 ---
 
 ## 📸 Screenshots
 
-| 🕌 Live Dashboard | ⚙️ Settings & Customization |
-| :---: | :---: |
-| ![Dashboard Screenshot](docs/screenshots/dashboard.png) | ![Settings Screenshot](docs/screenshots/settings.png) |
+| 🏠 Home | 📖 Quran Reader | ⚙️ Settings |
+| :---: | :---: | :---: |
+| ![Home](docs/screenshots/home.png) | ![Quran Reader](docs/screenshots/quran.png) | ![Settings](docs/screenshots/settings.png) |
 
 ---
 
 ## 📖 About Prayer
 
-In our modern, fast-paced work and digital environments, it is easy to get immersed in tasks and unintentionally delay our daily prayers (**Salah**). 
+In our modern, fast-paced work and digital environments, it is easy to get immersed in tasks and unintentionally delay our daily worship. 
 
-**Prayer** is a dedicated Windows desktop application created to help Muslims build steadfast discipline and consistency in their worship. When each of the five daily prayer times arrives (**Fajr, Dhuhr, Asr, Maghrib, Isha**), the application locks your computer screens with a beautiful, distraction-free overlay for a configurable duration (default 15 minutes), allowing you to step away from work, perform Wudu, and offer Salah with complete peace of mind.
+**Prayer** is a comprehensive Windows desktop companion designed to help Muslims maintain steadfast consistency in **Salah**. When prayer times arrive (**Fajr, Dhuhr, Asr, Maghrib, Isha**), the application locks your computer screens with a distraction-free overlay for a configurable duration (default 15 minutes) to step away for Wudu and prayer. In addition to focus locking, **Prayer v2.0.0** includes a full offline-capable Quran reader across all 114 Surahs and authenticated daily Hadith narrations.
 
 ---
 
 ## ✨ Key Features
 
-- **🌐 Automatic Prayer Times & Offline Caching**: Accurately calculates prayer times worldwide via the Aladhan API, automatically caching monthly schedules in a local SQLite database for seamless offline operation.
-- **🔒 Multi-Monitor Fullscreen Focus Lock**: At prayer time, all connected monitors are covered with an unclosable focus screen, playing your chosen Azaan or chime. The unlock button is safely revealed once the prayer duration elapses.
-- **⏰ 5-Minute Pre-Lock Reminder Notifications**: Receive a gentle native Windows toast notification 5 minutes before each prayer, allowing you to save your work before the lock engages.
-- **✍️ Manual Jamat Overrides**: Easily adjust individual prayer times using explicit 12-Hour (Hour, Minute, AM/PM) pickers to match your local neighborhood mosque's Jamat schedule.
-- **📖 Daily Quran Ayat & Sahih Hadith**: Every day features an inspiring Ayah from the Quran (Arabic text with English & Urdu translations) alongside authenticated Hadith strictly sourced from **Sahih al-Bukhari** and **Sahih Muslim**.
-- **🎨 Premium Dark & Light Themes**: Crafted with a custom title bar, dark emerald and warm gold Islamic accents, glassmorphic cards, and Urdu/Arabic typography.
-- **🔊 Custom Azaan Audio**: Select your own `.mp3` or `.wav` Azaan recording or use the built-in gentle prayer chime.
-- **🛡️ Sleep & Wake Resilience**: Automatically calculates real-world elapsed time if your laptop goes to sleep or is closed during a lock session.
-- **🚀 System Tray Integration & Autostart**: Runs unobtrusively in the Windows system tray with a custom right-click flyout menu and optional Windows startup launch.
+- **📖 Full Quran Reader**: Browse all 114 Surahs with crystal-clear Arabic (Uthmani script), Urdu (Fateh Muhammad Jalandhry), and English (Saheeh International) translations.
+- **⚡ Offline-First Quran Caching**: Opened Surahs and the 114-Surah directory are cached in a local SQLite database for instant, offline reading.
+- **🔖 Bookmark & Resume Reading**: Remembers your last-read Ayah per Surah with convenient continue prompts.
+- **🧭 Multi-Page Navigation Shell**: Seamless sidebar navigation between Home, Prayer Times, Quran, Hadith, Settings, and About.
+- **🕌 Modern Emerald & Gold Visual Design**: Beautiful Islamic aesthetics featuring vector iconography, live countdowns, and rich mosque sunset artwork.
+- **🔒 Multi-Monitor Fullscreen Focus Lock**: At prayer time, all connected monitors are covered with an unclosable focus screen, playing your chosen Azaan or chime.
+- **⏰ 5-Minute Pre-Lock Reminder Notifications**: Native Windows toast notification prior to each prayer lock, giving you time to save ongoing work.
+- **🌐 Automatic Prayer Times & Calculations**: Worldwide prayer calculations via Aladhan API with automatic offline SQLite caching.
+- **✍️ Manual Jamat Overrides**: Adjust individual prayer times with 12-Hour (Hour, Minute, AM/PM) pickers to match your local mosque's Jamat schedule.
+- **📜 Verified Authentic Hadith Inspiration**: Daily Hadith narrations strictly restricted to **Sahih al-Bukhari** and **Sahih Muslim** with full citations.
+- **🔊 Custom Azaan Audio**: Select custom `.mp3` or `.wav` Azaan recordings or use the built-in gentle prayer chime.
+- **🛡️ Sleep & Wake Resilience**: Accurately tracks elapsed prayer time if your system sleeps or is closed during a lock session.
+- **🚀 System Tray Integration**: Runs quietly in the Windows system tray with a custom right-click flyout menu and optional Windows startup launch.
 
 ---
 
 ## 📥 Download & Installation
 
 1. Go to the [**Releases**](https://github.com/itsrananoman/Prayer-App/releases) page on GitHub.
-2. Download the latest installer: `PrayerSetup_v1.1.0.exe`.
+2. Download the latest installer: `PrayerSetup_v2.0.0.exe`.
 3. Double-click the installer and follow the guided setup wizard.
 4. Launch **Prayer** from your Desktop or Start Menu.
 
@@ -56,10 +60,10 @@ In our modern, fast-paced work and digital environments, it is easy to get immer
 
 - **Language & UI**: C# 12, .NET 8 (WPF — Windows Presentation Foundation)
 - **Architecture**: MVVM (Model-View-ViewModel) pattern with Dependency Injection
-- **Database**: SQLite with Entity Framework Core (Code-First)
+- **Database**: SQLite with Entity Framework Core (Code-First & Auto-Migrations)
 - **Audio & Media**: DirectSound / Windows Media Player COM Interop
 - **Packaging**: Inno Setup 6 Compiler (Self-Contained single-file deployment)
-- **Web Services**: Aladhan Timings API & Al-Quran Cloud API
+- **Web Services**: Aladhan Timings API & Al-Quran Cloud API (Tanzil Project)
 
 ---
 
@@ -74,7 +78,7 @@ This software is proprietary. Redistribution, unauthorized copying, or modificat
 
 - **Lead Developer**: [Rana Noman](https://github.com/itsrananoman) — *DevCrafters*
 - **Prayer Times Data**: [Aladhan API](https://aladhan.com/prayer-times-api)
-- **Quranic Text & Translations**: [Tanzil Project & Al-Quran Cloud](https://alquran.cloud/)
+- **Quranic Text & Translations**: Quran text via Tanzil Project ([alquran.cloud](https://alquran.cloud/))
 - **Hadith Collections**: Verified authentic narrations from *Sahih al-Bukhari* and *Sahih Muslim*
 
 ---

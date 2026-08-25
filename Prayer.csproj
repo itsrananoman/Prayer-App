@@ -18,9 +18,9 @@
     <Product>Prayer</Product>
     <Description>Windows Prayer Time Focus Lock Application</Description>
     <Copyright>Developed by Rana Noman</Copyright>
-    <Version>1.1.0</Version>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <Version>2.0.0</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -38,6 +38,10 @@
 
   <ItemGroup>
     <None Update="Resources\Audio\**\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Resource Include="Resources\Images\**\*.*" />
+    <None Update="Resources\Images\**\*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Resource Include="Resources\Icons\Prayer.ico" />

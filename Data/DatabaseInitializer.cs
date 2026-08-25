@@ -22,6 +22,35 @@ public static class DatabaseInitializer
         }
         catch { }
 
+        try
+        {
+            context.Database.ExecuteSqlRaw(@"
+                CREATE TABLE IF NOT EXISTS Surahs (
+                    Number INTEGER PRIMARY KEY,
+                    ArabicName TEXT NOT NULL,
+                    EnglishName TEXT NOT NULL,
+                    EnglishNameTranslation TEXT NOT NULL,
+                    NumberOfAyahs INTEGER NOT NULL,
+                    RevelationType TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS CachedAyahs (
+                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    SurahNumber INTEGER NOT NULL,
+                    AyahNumber INTEGER NOT NULL,
+                    ArabicText TEXT NOT NULL,
+                    UrduText TEXT NOT NULL,
+                    EnglishText TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS ReadingProgress (
+                    SurahNumber INTEGER PRIMARY KEY,
+                    LastReadAyah INTEGER NOT NULL,
+                    LastReadAt TEXT NOT NULL
+                );
+                CREATE INDEX IF NOT EXISTS IX_CachedAyahs_SurahNumber_AyahNumber ON CachedAyahs (SurahNumber, AyahNumber);
+            ");
+        }
+        catch { }
+
         // Seed default user settings if not present
         if (!context.UserSettings.Any())
         {

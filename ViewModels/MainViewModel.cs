@@ -141,6 +141,28 @@ public class MainViewModel : ViewModelBase, IDisposable
         set => SetProperty(ref _todayVerse, value);
     }
 
+    private string _dailyQuoteText = "Indeed, Prayer restrains from immorality and wrongdoing.";
+    private string _dailyQuoteSource = "— Qur'an 29:45";
+    private string _dailyQuoteArabic = "إِنَّ الصَّلَاةَ تَنْهَىٰ عَنِ الْفَحْشَاءِ وَالْمُنكَرِ";
+
+    public string DailyQuoteText
+    {
+        get => _dailyQuoteText;
+        set => SetProperty(ref _dailyQuoteText, value);
+    }
+
+    public string DailyQuoteSource
+    {
+        get => _dailyQuoteSource;
+        set => SetProperty(ref _dailyQuoteSource, value);
+    }
+
+    public string DailyQuoteArabic
+    {
+        get => _dailyQuoteArabic;
+        set => SetProperty(ref _dailyQuoteArabic, value);
+    }
+
     public ICommand RefreshCommand { get; }
     public ICommand OpenSettingsCommand { get; }
     public ICommand TestLockPreviewCommand { get; }

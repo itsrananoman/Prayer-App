@@ -5,266 +5,229 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:vm="clr-namespace:Prayer.ViewModels"
+        xmlns:pages="clr-namespace:Prayer.Views.Pages"
         mc:Ignorable="d"
-        Title="Prayer — Focus &amp; Salah Consistency"
-        Height="740" Width="980"
-        MinHeight="650" MinWidth="850"
+        Title="Prayer — Focus • Salah • Consistency"
+        Height="780" Width="1160" MinHeight="680" MinWidth="1020"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
-        ResizeMode="CanResize"
         Background="{StaticResource AppBackgroundBrush}"
         Icon="pack://application:,,,/Resources/Icons/Prayer.ico"
         FontFamily="{StaticResource MainFontFamily}">
 
     <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="40"
-                      ResizeBorderThickness="6"
-                      CornerRadius="0"
-                      GlassFrameThickness="0"
-                      UseAeroCaptionButtons="False"/>
+        <shell:WindowChrome CaptionHeight="48"
+                            CornerRadius="0"
+                            GlassFrameThickness="0"
+                            ResizeBorderThickness="6"
+                            UseAeroCaptionButtons="False"/>
     </WindowChrome.WindowChrome>
 
     <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <!-- DataTemplates for Page Navigation -->
+        <DataTemplate DataType="{x:Type vm:MainViewModel}">
+            <pages:HomePage/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:PrayerTimesViewModel}">
+            <pages:PrayerTimesPage/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:QuranViewModel}">
+            <pages:QuranPage/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:HadithViewModel}">
+            <pages:HadithPage/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
+            <pages:SettingsPage/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:AboutViewModel}">
+            <pages:AboutPage/>
+        </DataTemplate>
     </Window.Resources>
 
-    <!-- MAIN ROOT CONTAINER WITH ROUNDED CORNERS & LUXURY BORDER GLOW -->
-    <Border Background="{StaticResource AppBackgroundBrush}"
-            BorderBrush="{StaticResource BorderGoldBrush}"
-            BorderThickness="1"
-            CornerRadius="14">
-        <Border.Effect>
-            <DropShadowEffect BlurRadius="25" ShadowDepth="4" Direction="270" Opacity="0.5" Color="#000000"/>
-        </Border.Effect>
+    <!-- MAIN SHELL GRID -->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="52"/> <!-- Top Header Bar -->
+            <RowDefinition Height="*"/>   <!-- Main Content with Sidebar -->
+            <RowDefinition Height="38"/> <!-- Bottom Status Bar -->
+        </Grid.RowDefinitions>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40"/> <!-- Custom Title Bar -->
-                <RowDefinition Height="Auto"/> <!-- App Subheader / Actions -->
-                <RowDefinition Height="Auto"/> <!-- Hero Next Prayer Card -->
-                <RowDefinition Height="Auto"/> <!-- 5 Prayer Schedule Cards -->
-                <RowDefinition Height="*"/>    <!-- Daily Ayat / Hadith Card -->
-                <RowDefinition Height="Auto"/> <!-- Footer -->
-            </Grid.RowDefinitions>
-
-            <!-- CUSTOM THEMED TITLE BAR -->
-            <Grid Grid.Row="0" Background="#061A14" Margin="1,1,1,0">
+        <!-- ==================== 1. TOP HEADER BAR ==================== -->
+        <Border Grid.Row="0" Background="#061A14" BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="0,0,0,1" Padding="16,0">
+            <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Left Branding (Window Drag Area) -->
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="14,0,0,0">
-                    <Image Source="pack://application:,,,/Resources/Icons/Prayer.ico"
-                           Width="18" Height="18"
-                           RenderOptions.BitmapScalingMode="HighQuality"
-                           VerticalAlignment="Center" Margin="0,0,8,0"/>
-                    <TextBlock Text="PRAYER" FontSize="13" FontWeight="Bold" Foreground="{StaticResource TextGoldBrush}" VerticalAlignment="Center"/>
-                    <TextBlock Text=" • " FontSize="12" Foreground="{StaticResource TextMutedBrush}" VerticalAlignment="Center"/>
-                    <TextBlock Text="صلوٰۃ" FontSize="14" FontWeight="Bold" FontFamily="{StaticResource ArabicFontFamily}" Foreground="{StaticResource TextPrimaryBrush}" VerticalAlignment="Center"/>
-                    <TextBlock Text=" — Focus &amp; Salah Consistency" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center" Margin="6,0,0,0"/>
-                </StackPanel>
-
-                <!-- Window Control Buttons (Minimize, Maximize, Close) -->
-                <StackPanel Grid.Column="1" Orientation="Horizontal">
-                    <Button Style="{StaticResource TitleBarButton}" Click="OnMinimizeClick">
-                        <TextBlock Text="—" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,0,2"/>
-                    </Button>
-                    <Button Style="{StaticResource TitleBarButton}" Click="OnMaximizeRestoreClick">
-                        <TextBlock Text="□" FontSize="14" Foreground="{StaticResource TextSecondaryBrush}"/>
-                    </Button>
-                    <Button Style="{StaticResource TitleBarCloseButton}" Click="OnCloseClick"/>
-                </StackPanel>
-            </Grid>
-
-            <!-- SUBHEADER & TOP ACTIONS -->
-            <Grid Grid.Row="1" Margin="24,14,24,16">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <!-- Location & Status Badge -->
+                <!-- Left: App Branding with Pure Vector Mosque Logo -->
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Background="#0D2E24" BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="1" CornerRadius="6" Padding="10,4">
+                    <Border Width="32" Height="32" CornerRadius="8" Background="#0C2B22" BorderBrush="{StaticResource BorderGoldBrush}" BorderThickness="1" Margin="0,0,12,0">
+                        <Path Data="{StaticResource GeoAppLogo}" Fill="{StaticResource TextGoldBrush}"
+                              Width="18" Height="18" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="📍 " FontSize="12"/>
-                            <TextBlock Text="{Binding LocationDisplay}" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource TextGoldBrush}"/>
-                            <TextBlock Text=" • " FontSize="13" Foreground="{StaticResource TextMutedBrush}"/>
-                            <TextBlock Text="{Binding CurrentDateDisplay}" FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"/>
+                            <TextBlock Text="PRAYER" FontSize="14.5" FontWeight="Bold" Foreground="{StaticResource TextGoldBrush}"/>
                             <TextBlock Text=" • " FontSize="12" Foreground="{StaticResource TextMutedBrush}"/>
-                            <TextBlock Text="{Binding NetworkStatus}" FontSize="11" FontWeight="SemiBold" Foreground="{StaticResource TextMintBrush}"/>
+                            <TextBlock Text="صلوٰۃ" FontSize="14.5" FontWeight="Bold" FontFamily="{StaticResource ArabicFontFamily}" Foreground="{StaticResource TextPrimaryBrush}"/>
+                        </StackPanel>
+                        <TextBlock Text="Focus • Salah • Consistency" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}" Margin="0,-1,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Center: Location Badge & Date Display -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <!-- Location Pill -->
+                    <Border Background="#0C2B22" BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="1" CornerRadius="8" Padding="12,5" Margin="0,0,14,0">
+                        <StackPanel Orientation="Horizontal">
+                            <Path Data="{StaticResource GeoLocation}" Fill="{StaticResource TextGoldBrush}" Width="12" Height="12" Stretch="Uniform" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                            <TextBlock Text="{Binding HomeViewModel.LocationDisplay}" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextGoldBrush}" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Border>
+
+                    <!-- Live Date Display -->
+                    <TextBlock Text="{Binding HomeViewModel.CurrentDateDisplay}" FontSize="12.5" FontWeight="Medium" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <!-- Action Buttons -->
-                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Button Content="🔄 Refresh" Style="{StaticResource OutlineButton}" Command="{Binding RefreshCommand}" Margin="0,0,8,0"/>
-                    <Button Content="⚙️ Settings" Style="{StaticResource SecondaryEmeraldButton}" Command="{Binding OpenSettingsCommand}" Margin="0,0,8,0"/>
-                    <Button x:Name="TestLockButton" Content="🔒 Test Lock (10s)" Style="{StaticResource PrimaryGoldButton}" Command="{Binding TestLockPreviewCommand}"/>
+                <!-- Right: Window Controls (Minimize, Maximize, Close) -->
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Style="{StaticResource TitleBarButton}" Click="OnMinimizeClick" ToolTip="Minimize">
+                        <Path Data="M 0 0 L 10 0" Stroke="{StaticResource TextSecondaryBrush}" StrokeThickness="1.5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
+
+                    <Button Style="{StaticResource TitleBarButton}" Click="OnMaximizeRestoreClick" ToolTip="Maximize / Restore">
+                        <Rectangle Width="9" Height="9" Stroke="{StaticResource TextSecondaryBrush}" StrokeThickness="1.5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Button>
+
+                    <Button Style="{StaticResource TitleBarCloseButton}" Click="OnCloseClick" ToolTip="Close to Tray"/>
                 </StackPanel>
             </Grid>
+        </Border>
 
-            <!-- HERO NEXT PRAYER CARD -->
-            <Border Grid.Row="2" Background="{StaticResource HeroCardGradientBrush}"
-                    BorderBrush="{StaticResource BorderGoldBrush}" BorderThickness="1.5"
-                    CornerRadius="16" Padding="24,18" Margin="24,0,24,16">
-                <Border.Effect>
-                    <DropShadowEffect BlurRadius="25" ShadowDepth="4" Direction="270" Opacity="0.4" Color="#000000"/>
-                </Border.Effect>
+        <!-- ==================== 2. MAIN BODY (SIDEBAR + CONTENT) ==================== -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="210"/> <!-- Left Navigation Sidebar -->
+                <ColumnDefinition Width="*"/>   <!-- Main Content Area -->
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT SIDEBAR -->
+            <Border Background="#071D17" BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="0,0,1,0" Padding="12,14">
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
 
-                    <!-- Left: Countdown & Next Prayer -->
-                    <StackPanel VerticalAlignment="Center">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,0,4">
-                            <TextBlock Text="NEXT PRAYER: " FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextGoldBrush}"/>
-                            <TextBlock Text="{Binding NextPrayerName}" FontSize="16" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" Margin="4,0,4,0"/>
-                            <TextBlock Text="(" FontSize="14" Foreground="{StaticResource TextMutedBrush}"/>
-                            <TextBlock Text="{Binding NextPrayerUrduName}" FontSize="16" FontFamily="{StaticResource UrduFontFamily}" Foreground="{StaticResource TextMintBrush}"/>
-                            <TextBlock Text=")" FontSize="14" Foreground="{StaticResource TextMutedBrush}"/>
-                        </StackPanel>
-
-                        <!-- Huge Countdown Clock -->
-                        <StackPanel Orientation="Horizontal" Margin="0,2,0,4">
-                            <TextBlock Text="{Binding NextPrayerCountdown}"
-                                       FontSize="44" FontWeight="Bold"
-                                       FontFamily="{StaticResource ClockFontFamily}"
-                                       Foreground="{StaticResource TextPrimaryBrush}"/>
-                            <TextBlock Text=" REMAINING" FontSize="11" FontWeight="SemiBold"
-                                       Foreground="{StaticResource TextMutedBrush}"
-                                       VerticalAlignment="Bottom" Margin="10,0,0,8"/>
-                        </StackPanel>
-
-                        <!-- Progress Bar -->
-                        <ProgressBar Value="{Binding CountdownProgress, Mode=OneWay}" Minimum="0" Maximum="1"
-                                     Height="5" Width="360" HorizontalAlignment="Left"
-                                     Background="#0A2019" Foreground="{StaticResource AccentGoldSolidBrush}"
-                                     BorderThickness="0" Margin="0,4,0,0"/>
-                    </StackPanel>
-
-                    <!-- Right: Scheduled Target Time -->
-                    <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
-                        <Border Background="#092019" BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="1"
-                                CornerRadius="10" Padding="16,10">
-                            <StackPanel HorizontalAlignment="Center">
-                                <TextBlock Text="SCHEDULED AT" FontSize="10" FontWeight="SemiBold" Foreground="{StaticResource TextMutedBrush}" HorizontalAlignment="Center"/>
-                                <TextBlock Text="{Binding NextPrayerTargetTime}" FontSize="20" FontWeight="Bold" Foreground="{StaticResource TextGoldBrush}" HorizontalAlignment="Center" Margin="0,2,0,0"/>
+                    <!-- Navigation Items List with Vector Icons -->
+                    <StackPanel Grid.Row="0">
+                        <RadioButton Style="{StaticResource SidebarNavRadioButton}"
+                                     IsChecked="{Binding IsHomeSelected, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="Home">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{StaticResource GeoHome}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ContentPresenter}}"
+                                      StrokeThickness="1.5" Fill="Transparent" Width="16" Height="16" Stretch="Uniform" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Home" VerticalAlignment="Center"/>
                             </StackPanel>
-                        </Border>
-                        <TextBlock Text="{Binding ActivePrayerBanner}" FontSize="12" FontFamily="{StaticResource UrduFontFamily}"
-                                   Foreground="{StaticResource TextSecondaryBrush}" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                        </RadioButton>
+
+                        <RadioButton Style="{StaticResource SidebarNavRadioButton}"
+                                     IsChecked="{Binding IsPrayerTimesSelected, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="PrayerTimes">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{StaticResource GeoPrayerTimes}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ContentPresenter}}"
+                                      StrokeThickness="1.5" Fill="Transparent" Width="16" Height="16" Stretch="Uniform" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Prayer Times" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </RadioButton>
+
+                        <RadioButton Style="{StaticResource SidebarNavRadioButton}"
+                                     IsChecked="{Binding IsQuranSelected, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="Quran">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{StaticResource GeoQuran}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ContentPresenter}}"
+                                      StrokeThickness="1.5" Fill="Transparent" Width="16" Height="16" Stretch="Uniform" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Quran" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </RadioButton>
+
+                        <RadioButton Style="{StaticResource SidebarNavRadioButton}"
+                                     IsChecked="{Binding IsHadithSelected, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="Hadith">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{StaticResource GeoHadith}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ContentPresenter}}"
+                                      StrokeThickness="1.5" Fill="Transparent" Width="16" Height="16" Stretch="Uniform" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Hadith" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </RadioButton>
+
+                        <RadioButton Style="{StaticResource SidebarNavRadioButton}"
+                                     IsChecked="{Binding IsSettingsSelected, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="Settings">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{StaticResource GeoSettings}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ContentPresenter}}"
+                                      StrokeThickness="1.5" Fill="Transparent" Width="16" Height="16" Stretch="Uniform" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Settings" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </RadioButton>
+
+                        <RadioButton Style="{StaticResource SidebarNavRadioButton}"
+                                     IsChecked="{Binding IsAboutSelected, Mode=OneWay}"
+                                     Command="{Binding NavigateCommand}" CommandParameter="About">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="{StaticResource GeoAbout}" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=ContentPresenter}}"
+                                      StrokeThickness="1.5" Fill="Transparent" Width="16" Height="16" Stretch="Uniform" Margin="0,0,12,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="About" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </RadioButton>
                     </StackPanel>
+
+                    <!-- Bottom-Left Daily Quote Widget with Vector Heart Icon -->
+                    <Border Grid.Row="1" Background="#0C2920" BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="1" CornerRadius="12" Padding="14,14">
+                        <StackPanel>
+                            <Path Data="{StaticResource GeoHeart}" Fill="{StaticResource TextGoldBrush}"
+                                  Width="16" Height="16" Stretch="Uniform" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                            <TextBlock Text="{Binding HomeViewModel.DailyQuoteText, StringFormat='&quot;{0}&quot;'}"
+                                       FontSize="11" FontStyle="Italic" Foreground="{StaticResource TextSecondaryBrush}"
+                                       TextWrapping="Wrap" LineHeight="16" TextAlignment="Center" Margin="0,0,0,8"/>
+                            <TextBlock Text="{Binding HomeViewModel.DailyQuoteSource}"
+                                       FontSize="10.5" FontWeight="SemiBold" Foreground="{StaticResource TextGoldBrush}"
+                                       HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
                 </Grid>
             </Border>
 
-            <!-- 5 PRAYER SCHEDULE CARDS -->
-            <ItemsControl Grid.Row="3" ItemsSource="{Binding PrayerCards}" Margin="24,0,24,16">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Columns="5"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Margin="4,0" CornerRadius="12" Padding="12,10"
-                                BorderThickness="1.5">
-                            <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="Background" Value="{StaticResource SurfaceCardBrush}"/>
-                                    <Setter Property="BorderBrush" Value="{StaticResource BorderSubtleBrush}"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsNext}" Value="True">
-                                            <Setter Property="Background" Value="#174A3D"/>
-                                            <Setter Property="BorderBrush" Value="{StaticResource AccentGoldSolidBrush}"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsCurrent}" Value="True">
-                                            <Setter Property="Background" Value="#0F332A"/>
-                                            <Setter Property="BorderBrush" Value="{StaticResource TextMintBrush}"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Border.Style>
-                            <StackPanel HorizontalAlignment="Center">
-                                <TextBlock Text="{Binding Name}" FontSize="13" FontWeight="Bold" Foreground="{StaticResource TextPrimaryBrush}" HorizontalAlignment="Center"/>
-                                <TextBlock Text="{Binding UrduName}" FontSize="13" FontFamily="{StaticResource UrduFontFamily}" Foreground="{StaticResource TextGoldBrush}" HorizontalAlignment="Center" Margin="0,1,0,3"/>
-                                <TextBlock Text="{Binding FormattedTime}" FontSize="14" FontWeight="SemiBold" Foreground="{StaticResource TextPrimaryBrush}" HorizontalAlignment="Center"/>
-                                <Border CornerRadius="4" Padding="6,2" Margin="0,5,0,0" HorizontalAlignment="Center" Background="#0C241D">
-                                    <TextBlock Text="{Binding Status}" FontSize="10" Foreground="{StaticResource TextSecondaryBrush}"/>
-                                </Border>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-
-            <!-- DAILY AYAT / HADITH CARD -->
-            <Border Grid.Row="4" Style="{StaticResource ModernCard}" Margin="24,0,24,14">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel>
-                        <!-- Type & Reference Header -->
-                        <Grid Margin="0,0,0,10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                <Border Background="#164D3F" CornerRadius="6" Padding="8,3" Margin="0,0,8,0">
-                                    <TextBlock Text="{Binding TodayVerse.Type}" FontSize="11" FontWeight="Bold" Foreground="{StaticResource TextGoldBrush}"/>
-                                </Border>
-                                <TextBlock Text="DAILY INSPIRATION • روزانہ کا پیغام" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
-                            </StackPanel>
-                            <TextBlock Grid.Column="1" Text="{Binding TodayVerse.Reference}" FontSize="12" FontWeight="Medium" Foreground="{StaticResource TextGoldBrush}" VerticalAlignment="Center"/>
-                        </Grid>
-
-                        <!-- Arabic Text -->
-                        <TextBlock Text="{Binding TodayVerse.ArabicText}"
-                                   FontSize="20" FontWeight="Medium"
-                                   FontFamily="{StaticResource ArabicFontFamily}"
-                                   Foreground="{StaticResource TextGoldBrush}"
-                                   TextAlignment="Right" LineHeight="32"
-                                   TextWrapping="Wrap" Margin="0,0,0,8"/>
-
-                        <!-- Urdu Translation -->
-                        <TextBlock Text="{Binding TodayVerse.TranslationUrdu}"
-                                   FontSize="15" FontFamily="{StaticResource UrduFontFamily}"
-                                   Foreground="{StaticResource TextPrimaryBrush}"
-                                   TextAlignment="Right" LineHeight="24"
-                                   TextWrapping="Wrap" Margin="0,0,0,6"/>
-
-                        <!-- English Translation -->
-                        <TextBlock Text="{Binding TodayVerse.TranslationEnglish}"
-                                   FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"
-                                   TextWrapping="Wrap" FontStyle="Italic" LineHeight="18" Margin="0,0,0,6"/>
-
-                        <!-- Permanent Source Attribution Line -->
-                        <TextBlock Text="{Binding TodayVerse.SourceAttribution}"
-                                   FontSize="10.5" Foreground="{StaticResource TextMutedBrush}"
-                                   FontStyle="Italic" TextWrapping="Wrap" HorizontalAlignment="Right"/>
-                    </StackPanel>
-                </ScrollViewer>
+            <!-- MAIN CONTENT AREA -->
+            <Border Grid.Column="1" Padding="18,16,18,0">
+                <ContentControl Content="{Binding CurrentPageViewModel}"/>
             </Border>
+        </Grid>
 
-            <!-- FOOTER STATUS -->
-            <Grid Grid.Row="5" Margin="24,0,24,14">
+        <!-- ==================== 3. BOTTOM STATUS BAR ==================== -->
+        <Border Grid.Row="2" Background="#051410" BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="0,1,0,0" Padding="18,0">
+            <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
+                <!-- Status Text with Vector Lock -->
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Text="🔒 Focus Lock: " FontSize="12" Foreground="{StaticResource TextMutedBrush}"/>
-                    <TextBlock Text="App automatically locks full screen at prayer times for Salah." FontSize="12" Foreground="{StaticResource TextSecondaryBrush}"/>
+                    <Path Data="{StaticResource GeoLock}" Fill="{StaticResource TextGoldBrush}" Width="12" Height="12" Stretch="Uniform" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                    <TextBlock Text="{Binding LockStatusText}" FontSize="11.5" Foreground="{StaticResource TextSecondaryBrush}" VerticalAlignment="Center"/>
                 </StackPanel>
 
-                <TextBlock Grid.Column="1" Text="{Binding CurrentTimeDisplay}" FontSize="13" FontWeight="SemiBold"
-                           FontFamily="{StaticResource ClockFontFamily}" Foreground="{StaticResource TextGoldBrush}"/>
+                <!-- Live Digital Time Clock -->
+                <Border Grid.Column="2" Background="#0A221A" BorderBrush="{StaticResource BorderSubtleBrush}" BorderThickness="1" CornerRadius="6" Padding="10,3" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding HomeViewModel.CurrentTimeDisplay}" FontSize="12" FontWeight="Bold" Foreground="{StaticResource TextGoldBrush}"/>
+                </Border>
             </Grid>
-        </Grid>
-    </Border>
+        </Border>
+
+    </Grid>
 </Window>
